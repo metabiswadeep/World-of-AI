@@ -2,7 +2,7 @@ import streamlit as st
 from langchain import PromptTemplate
 from langchain.llms import OpenAI
 
-template = """
+TEMPLATE = """
     Below is an email that may be poorly worded.
     Your goal is to:
     - Properly format the email
@@ -28,15 +28,15 @@ template = """
 """
 
 prompt = PromptTemplate(
-    template=template,
+    template=TEMPLATE,
     input_variables=["tone", "dialect", "email"],
 )
 
 
-def load_LLM(openai_api_key):
+def load_LLM(openai_api_key_val):
     """Logic for loading the chain you want to use should go here."""
     # Make sure your openai_api_key is set as an environment variable
-    llm = OpenAI(client="Any", openai_api_key=openai_api_key)
+    llm = OpenAI(client="Any", openai_api_key=openai_api_key_val)
     return llm
 
 
@@ -69,48 +69,61 @@ st.header("AI-powered Email Generator")
 
 # About Section
 st.write(
-    "Our AI email generator app is designed to help you save time and streamline your email communication. With our app, you can easily generate professional and effective emails in a matter of seconds, without having to spend hours crafting the perfect message. Our advanced algorithms analyze your input and generate highly personalized emails that are tailored to your specific needs. Our app is perfect for busy professionals who want to stay on top of their email correspondence and make a great impression on their clients and colleagues."
+    "Our AI email generator app is designed to help you save time and streamline \
+    your email communication. With our app, you can easily generate professional \
+    and effective emails in a matter of seconds, without having to spend hours crafting \
+    the perfect message. Our advanced algorithms analyze your input and generate highly \
+    personalized emails that are tailored to your specific needs. Our app is perfect for \
+    busy professionals who want to stay on top of their email correspondence and make a great \
+    impression on their clients and colleagues."
 )
 
 # Features Section
 st.header("Features")
 
-col1, col2, col3 = st.columns(3)
+COL1, COL2, COL3 = st.columns(3)
 
-with col1:
+with COL1:
     st.write("**Personalized Emails**")
     st.write(
-        "Our app uses advanced algorithms to analyze your input and generate highly personalized emails that are tailored to your specific needs."
+        "Our app uses advanced algorithms to analyze your input and generate highly personalized \
+        emails that are tailored to your specific needs."
     )
 
-with col2:
+with COL2:
     st.write("**Time-Saving**")
     st.write(
-        "Our app helps you save time by generating professional and effective emails in a matter of seconds, without having to spend hours crafting the perfect message."
+        "Our app helps you save time by generating professional and effective emails in a matter \
+        of seconds, without having to spend hours crafting the perfect message."
     )
 
-with col3:
+with COL3:
     st.write("**Easy-to-Use Interface**")
     st.write(
-        "Our app has an intuitive and user-friendly interface that makes it easy for anyone to use, even if they have no experience with email marketing or writing."
+        "Our app has an intuitive and user-friendly interface that makes it easy for anyone to \
+        use, even if they have no experience with email marketing or writing."
     )
 
-with col1:
+with COL1:
     st.write("**Customizable Templates**")
     st.write(
-        "Our app comes with a range of customizable templates that you can use to quickly generate emails for a variety of purposes, such as business proposals, job applications, and more."
+        "Our app comes with a range of customizable templates that you can use to quickly generate \
+        emails for a variety of purposes, such as business proposals, job applications, and more."
     )
 
-with col2:
+with COL2:
     st.write("**Automated Follow-Ups**")
     st.write(
-        "Our app can automatically follow up on your emails, ensuring that you never miss an opportunity to connect with your clients or colleagues."
+        "Our app can automatically follow up on your emails, ensuring that you never miss an \
+        opportunity to connect with your clients or colleagues."
     )
 
-with col3:
+with COL3:
     st.write("**Insights and Analytics**")
     st.write(
-        "Our app provides you with insights and analytics about your email performance, including open rates, click-through rates, and more, so you can optimize your communication strategy over time."
+        "Our app provides you with insights and analytics about your email performance, including \
+        open rates, click-through rates, and more, so you can optimize your communication \
+        strategy over time."
     )
 
 st.markdown("---")
@@ -129,14 +142,14 @@ if not validate_openai_api_key(openai_api_key):
     st.warning("Please enter a valid OpenAI API key.")
     st.stop()
 
-col1, col2 = st.columns(2)
+COL1, COL2 = st.columns(2)
 
-with col1:
+with COL1:
     option_tone = st.selectbox(
         "Which tone would you like your email to have?", ("Formal", "Informal")
     )
 
-with col2:
+with COL2:
     option_dialect = st.selectbox(
         "Which English Dialect would you like?", ("American", "British")
     )
@@ -160,14 +173,14 @@ if not validate_email_input(email_input):
     st.stop()
 
 
-def generate_formatted_email(email_input, option_tone, option_dialect, openai_api_key):
+def generate_formatted_email(email_input_val,option_tone_val,option_dialect_val,openai_api_key_val):
     """Generate the formatted email using OpenAI API."""
-    llm = load_LLM(openai_api_key=openai_api_key)
+    llm = load_LLM(openai_api_key=openai_api_key_val)
     prompt_final = prompt.format(
-        tone=option_tone, dialect=option_dialect, email=email_input
+        tone=option_tone_val, dialect=option_dialect_val, email=email_input_val
     )
-    formatted_email = llm(prompt_final)
-    return formatted_email
+    format_email = llm(prompt_final)
+    return format_email
 
 
 def display_formatted_email(formatted_email):
